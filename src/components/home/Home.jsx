@@ -5,9 +5,19 @@ import './home.css'
 export default function () {
     return (
         <div>
-            <h1>Home</h1>
+            <div className="title">
+                You can't javascript under pressure
+            </div>
+            <div className="body">
+                Five functions to fill. One ticking clock.
+            </div>
+            <div className="body-question">
+                How fast can you code ?
+            </div>
             <Link to="/exercice">
-                <button>Start</button>
+                <div className="button-container">
+                    <button className="button">Start</button>
+                </div>
             </Link>
         </div>
     )

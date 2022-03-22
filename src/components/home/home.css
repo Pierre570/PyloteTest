@@ -1,0 +1,29 @@
+.title {
+    font-size: 150px;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+.body {
+    font-size: 50px;
+    text-align: center;
+}
+
+.body-question {
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    width: 1000px;
+    height: 100px;
+    background-color: black;
+    color: white;
+    font-size: 40px;
+}
