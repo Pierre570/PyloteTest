@@ -7,6 +7,7 @@ import 'codemirror/mode/javascript/javascript';
 import { Controlled as ControlledEditor } from "react-codemirror2";
 
 export default function Editor(props) {
+    // value configuration of editor
     const {
         value,
         onChange,

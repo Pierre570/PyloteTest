@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from 'react-router-dom';
-import './home.css'
+import './end.css'
 
 export default function () {
     return (
@@ -9,14 +9,11 @@ export default function () {
                 You can't javascript under pressure
             </div>
             <div className="body">
-                Five functions to fill. One ticking clock.
-            </div>
-            <div className="body-question">
-                How fast can you code ?
+                Congratulations you finish the challenge.
             </div>
             <Link to="/exercice">
                 <div className="button-container">
-                    <button className="button">Start</button>
+                    <button className="button">Retry</button>
                 </div>
             </Link>
         </div>

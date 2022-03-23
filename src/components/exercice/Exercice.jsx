@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import './exercice.css'
 import Editor from './editor/Editor'
+import {Link} from 'react-router-dom';
+
 
 export default function (props) {
+    // put all exercice in array
     const exercice = [
         'function doubleInteger(i) { \n\n\t// i will be an integer. Double it and return it.\n\n\n\treturn i;\n\n}',
         'function isNumberEven(i) {\n\n\t// i will be an integer. Return true if its even, and false if it isnt.\n\n\n}',
@@ -10,17 +13,19 @@ export default function (props) {
         'function longestString(i) { \n\n\t// i will be an array\n\t // return the longest string in the array\n\n\n}',
         'function arraySum(i) {\n\n\t // i will be an array, containing integers, strings and/or arrays like itself.\n\t // Sum all the integers you find, anywhere in the nest of arrays.\n\n\n}'
     ]
-    const [code, setCode] = useState(exercice[0]);
-    const [result, setResult] = useState([]);
-    const [count, setCount] = useState(0);
-    const [time, setTime] = useState({ ms: 0, s: 0, m: 0 })
-    const [interv, setInterv] = useState(0);
+    const [code, setCode] = useState(exercice[0]); // code display with array exercice
+    const [result, setResult] = useState([]);  // text that will be display in console
+    const [count, setCount] = useState(0);   // count for know wich exercice the user 
+    const [time, setTime] = useState({ ms: 0, s: 0, m: 0 }) // timer
+    const [interv, setInterv] = useState(0); // interval for timer
+    const [end, setEnd] = useState(0);  // integer for know if the challenge is end or not
 
-
+    // function start the timer
     function start() {
         run();
         setInterv(setInterval(run, 10));
     };
+    // update the time
     var updatedMs = time.ms, updatedS = time.s, updatedM = time.m;
 
     const run = () => {
@@ -33,12 +38,12 @@ export default function (props) {
             updatedMs = 0;
         }
         updatedMs++;
-        return setTime({ms:updatedMs, s:updatedS, m:updatedM});
+        return setTime({ ms: updatedMs, s: updatedS, m: updatedM });
     };
     useEffect(() => {
-        console.log('oueeee')
         start();
-      }, []);
+    }, []);
+    // correction of each exercice
     function correction() {
         var counter = 0;
         const parameter = [
@@ -77,8 +82,14 @@ export default function (props) {
         }
         if (counter === solution[count].length) {
             setResult([<div className="log-good">Congratulations you passed the exercice {count + 1}</div>])
-            setCode(exercice[count + 1]);
-            setCount(count + 1)
+            if (count + 1 >= exercice.length) {
+                console.log('rara')
+                setEnd(1);
+            }
+            else {
+                setCode(exercice[count + 1]);
+                setCount(count + 1)
+            }
         }
     }
     return (
@@ -101,7 +112,15 @@ export default function (props) {
                 />
             </div>
             <div className="result-container">
-                <button className="button-submit" onClick={() => { correction() }}>Go</button>
+                <div>
+                    {end === 1 ?
+                        <Link to="/end">
+                            <button className="button-submit">Finish</button>
+                        </Link>
+                    :
+                        <button className="button-submit" onClick={() => { correction() }}>Go</button>
+                    }
+                </div>
                 <div className="console">
                     {result}
                 </div>
@@ -110,6 +129,7 @@ export default function (props) {
     )
 }
 
+// component that display wichc test is using the correction
 function Log(props) {
     const {
         value,
