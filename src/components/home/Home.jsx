@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import './home.css'
 
 export default function () {
+    const [val, setVal] = React.useState(15)
     return (
         <div>
             <div className="title">
@@ -14,7 +15,7 @@ export default function () {
             <div className="body-question">
                 How fast can you code ?
             </div>
-            <Link to="/exercice">
+            <Link to={{pathname: "/exercice", state: {val, setVal}}}>
                 <div className="button-container">
                     <button className="button">Start</button>
                 </div>
