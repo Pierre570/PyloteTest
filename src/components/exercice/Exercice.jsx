@@ -15,7 +15,6 @@ export default function () {
     const [count, setCount] = useState(0);
 
     async function correction() {
-        console.log(count);
         var counter = 0;
         const parameter = [
             [2, 4, -10, 0, 100],
@@ -34,6 +33,7 @@ export default function () {
         var funct = eval(
             `(${code})`
         )
+        setResult(result => [...result,'------------------------------------'])
         for (var x in parameter[count]) {
             const valeur = parameter[count][x];
             setResult(result => [...result, <Log value={valeur}></Log>])
@@ -41,10 +41,11 @@ export default function () {
                 if (funct(parameter[count][x]) !== solution[count][x]){
                     const soluce = solution[count][x]
                     const resultat = funct(parameter[count][x]);
-                    setResult(result => [...result, <BadLog valueResult={resultat} valueExpected={soluce}></BadLog>])
+                    console.log('soluce ==== ' + soluce);
+                    setResult(result => [...result, <div className="log-bad">WRONG Anwser. Try again ! </div>])
                 }
                 else {
-                    setResult(result => [...result, <GoodLog value={valeur}></GoodLog>])
+                    setResult(result => [...result, <div className="log-good">Good Answer Congratulations</div>])
                     counter += 1;
                 }
             } catch (error) {
@@ -52,7 +53,7 @@ export default function () {
             }
         }
         if (counter === solution[count].length) {
-            setResult([])
+            setResult([<div className="log-good">Congratulations you passed the exercice {count + 1}</div>])
             setCode(exercice[count + 1]);
             setCount(count + 1)
         }
@@ -67,6 +68,9 @@ export default function () {
                 <div className="timer">
                     {count}
                 </div>
+            </div>
+            <div className="exercice-count">
+                Exercice {count + 1}
             </div>
             <div className="editor-container">
                 <Editor
@@ -93,26 +97,4 @@ function Log(props) {
             Testing function with parameter: {value} ...
         </div>
     )
-}
-
-function GoodLog(props) {
-    const {
-        value,
-    } = props
-    return (
-        <div className="log-good">
-            RIGHT: {value} is the right answer.
-        </div>
-    )
-}
-
-function BadLog(props) {
-    const {
-        valueResult,
-        valueExpected,
-    } = props
-    return (
-        <div className="log-bad">
-            WRONG: Got {valueResult} but expected {valueExpected}. Try again !
-        </div>)
 }
