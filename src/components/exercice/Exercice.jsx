@@ -83,7 +83,6 @@ export default function (props) {
         if (counter === solution[count].length) {
             setResult([<div className="log-good">Congratulations you passed the exercice {count + 1}</div>])
             if (count + 1 >= exercice.length) {
-                console.log('rara')
                 setEnd(1);
             }
             else {
