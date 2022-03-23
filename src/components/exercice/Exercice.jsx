@@ -3,11 +3,19 @@ import './exercice.css'
 import Editor from './editor/Editor'
 
 export default function () {
-    const [code, setCode] = useState('function doubleInteger(i) { \n\n\t// i will be an integer. Double it and return it.\n\n\n\treturn i;\n\n}')
-    const [result, setResult] = useState([])
-    var index = 0;
+    const exercice = [
+        'function doubleInteger(i) { \n\n\t// i will be an integer. Double it and return it.\n\n\n\treturn i;\n\n}',
+        'function isNumberEven(i) {\n\n\t// i will be an integer. Return true if its even, and false if it isnt.\n\n\n}',   
+        'function getFileExtension(i) {\n\n\t// i will be a string, but it may not have a file extension.\n\t// return the file extension (with no period) if it has one, otherwise false\n\n\n}',
+        'function longestString(i) { \n\n\t// i will be an array\n\t // return the longest string in the array\n\n\n}',
+        'function arraySum(i) {\n\n\t // i will be an array, containing integers, strings and/or arrays like itself.\n\t // Sum all the integers you find, anywhere in the nest of arrays.\n\n\n}'
+    ]
+    const [code, setCode] = useState(exercice[0]);
+    const [result, setResult] = useState([]);
+    const [count, setCount] = useState(0);
 
-    function correction() {
+    async function correction() {
+        console.log(count);
         var counter = 0;
         const parameter = [
             [2, 4, -10, 0, 100],
@@ -26,21 +34,27 @@ export default function () {
         var funct = eval(
             `(${code})`
         )
-        for (var x in parameter[index]) {
-            const valeur = parameter[index][x];
+        for (var x in parameter[count]) {
+            const valeur = parameter[count][x];
             setResult(result => [...result, <Log value={valeur}></Log>])
-            const resultat = funct(parameter[index][x]);
-            if (resultat === solution[index][x]){
-                setResult(result => [...result, <GoodLog value={valeur}></GoodLog>])
-                counter += 1;
-            }
-            else {
-                const soluce = solution[index][x]
-                setResult(result => [...result, <BadLog valueResult={resultat} valueExpected={soluce}></BadLog>])
+            try {
+                if (funct(parameter[count][x]) !== solution[count][x]){
+                    const soluce = solution[count][x]
+                    const resultat = funct(parameter[count][x]);
+                    setResult(result => [...result, <BadLog valueResult={resultat} valueExpected={soluce}></BadLog>])
+                }
+                else {
+                    setResult(result => [...result, <GoodLog value={valeur}></GoodLog>])
+                    counter += 1;
+                }
+            } catch (error) {
+                setResult(result => [...result, <div className="log-bad">Error syntaxe in code</div>])
             }
         }
-        if (counter === solution[index].length) {
-
+        if (counter === solution[count].length) {
+            setResult([])
+            setCode(exercice[count + 1]);
+            setCount(count + 1)
         }
     }
 
@@ -51,7 +65,7 @@ export default function () {
                     You can't javascript under pressure
                 </div>
                 <div className="timer">
-                    0:00
+                    {count}
                 </div>
             </div>
             <div className="editor-container">
